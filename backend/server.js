@@ -11,13 +11,21 @@ import moviesRouter from './routes/movies.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Load .env file manually
-const envPath = join(dirname(__dirname), '.env');
-const envConfig = dotenv.parse(fs.readFileSync(envPath));
-
-// Apply the environment variables
-for (const key in envConfig) {
-  process.env[key] = envConfig[key];
+// Load .env file if it exists (for local development)
+try {
+  const envPath = join(dirname(__dirname), '.env');
+  if (fs.existsSync(envPath)) {
+    const envConfig = dotenv.parse(fs.readFileSync(envPath));
+    // Apply the environment variables
+    for (const key in envConfig) {
+      process.env[key] = envConfig[key];
+    }
+    console.log('Loaded environment variables from .env file');
+  } else {
+    console.log('.env file not found, using environment variables from system');
+  }
+} catch (error) {
+  console.log('Using environment variables from system');
 }
 
 // Create Express app
