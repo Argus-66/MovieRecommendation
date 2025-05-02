@@ -10,10 +10,14 @@ const apiClient = axios.create({
   }
 });
 
+// Log the API URL for debugging
+console.log('API URL:', API_URL);
+
 // Movie API endpoints
 export const fetchMovies = async (page = 1, limit = 20, sortBy = 'popularity') => {
   try {
-    const response = await apiClient.get(`/movies?page=${page}&limit=${limit}&sort=${sortBy}`);
+    console.log(`Fetching movies from: ${API_URL}/api/movies`);
+    const response = await apiClient.get(`/api/movies?page=${page}&limit=${limit}&sort=${sortBy}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching movies:', error);
