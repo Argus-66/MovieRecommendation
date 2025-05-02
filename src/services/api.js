@@ -27,7 +27,7 @@ export const fetchMovies = async (page = 1, limit = 20, sortBy = 'popularity') =
 
 export const fetchMovieById = async (id) => {
   try {
-    const response = await apiClient.get(`/movies/id/${id}`);
+    const response = await apiClient.get(`/api/movies/id/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching movie with id ${id}:`, error);
@@ -37,7 +37,7 @@ export const fetchMovieById = async (id) => {
 
 export const fetchPopularMovies = async (limit = 10) => {
   try {
-    const response = await apiClient.get(`/movies/popular?limit=${limit}`);
+    const response = await apiClient.get(`/api/movies/popular?limit=${limit}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching popular movies:', error);
@@ -47,7 +47,7 @@ export const fetchPopularMovies = async (limit = 10) => {
 
 export const fetchNewestMovies = async (limit = 10) => {
   try {
-    const response = await apiClient.get(`/movies?page=1&limit=${limit}&sort=release_date`);
+    const response = await apiClient.get(`/api/movies?page=1&limit=${limit}&sort=release_date`);
     return response.data.movies;
   } catch (error) {
     console.error('Error fetching newest movies:', error);
@@ -57,7 +57,7 @@ export const fetchNewestMovies = async (limit = 10) => {
 
 export const searchMovies = async (query) => {
   try {
-    const response = await apiClient.get(`/movies/search/${encodeURIComponent(query)}`);
+    const response = await apiClient.get(`/api/movies/search/${encodeURIComponent(query)}`);
     return response.data;
   } catch (error) {
     console.error(`Error searching movies with query "${query}":`, error);
@@ -68,7 +68,7 @@ export const searchMovies = async (query) => {
 export const fetchMoviesByGenre = async (genreId, page = 1, limit = 20, sortBy = 'popularity') => {
   try {
     const response = await apiClient.get(
-      `/movies/genre/${genreId}?page=${page}&limit=${limit}&sort=${sortBy}`
+      `/api/movies/genre/${genreId}?page=${page}&limit=${limit}&sort=${sortBy}`
     );
     return response.data;
   } catch (error) {
@@ -79,7 +79,7 @@ export const fetchMoviesByGenre = async (genreId, page = 1, limit = 20, sortBy =
 
 export const fetchGenres = async () => {
   try {
-    const response = await apiClient.get('/movies/genres');
+    const response = await apiClient.get('/api/movies/genres');
     return response.data;
   } catch (error) {
     console.error('Error fetching genres:', error);
@@ -100,7 +100,7 @@ export const filterMovies = async (filters) => {
     if (filters.yearFrom) params.append('yearFrom', filters.yearFrom);
     if (filters.yearTo) params.append('yearTo', filters.yearTo);
     
-    const response = await apiClient.get(`/movies/filter?${params.toString()}`);
+    const response = await apiClient.get(`/api/movies/filter?${params.toString()}`);
     return response.data;
   } catch (error) {
     console.error('Error filtering movies:', error);
@@ -111,7 +111,7 @@ export const filterMovies = async (filters) => {
 // Recommendation API endpoints
 export const getRandomRecommendations = async (count = 5) => {
   try {
-    const response = await apiClient.get(`/movies/random?count=${count}`);
+    const response = await apiClient.get(`/api/movies/random?count=${count}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching random recommendations:', error);
@@ -121,7 +121,7 @@ export const getRandomRecommendations = async (count = 5) => {
 
 export const getSimilarMovies = async (movieId, count = 5) => {
   try {
-    const response = await apiClient.get(`/movies/similar/${movieId}?count=${count}`);
+    const response = await apiClient.get(`/api/movies/similar/${movieId}?count=${count}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching similar movies for movie ID ${movieId}:`, error);
@@ -139,7 +139,7 @@ export const getRecommendationsByPreferences = async (preferences) => {
     if (preferences.count) params.append('count', preferences.count);
     if (preferences.rating) params.append('rating', preferences.rating);
     
-    const response = await apiClient.get(`/movies/recommend?${params.toString()}`);
+    const response = await apiClient.get(`/api/movies/recommend?${params.toString()}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching recommendations by preferences:', error);
@@ -149,7 +149,7 @@ export const getRecommendationsByPreferences = async (preferences) => {
 
 export const getMovieDetails = async (movieId) => {
   try {
-    const response = await fetch(`${API_URL}/api/movies/${movieId}`);
+    const response = await apiClient.get(`/api/movies/${movieId}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching movie details for movie ID ${movieId}:`, error);
