@@ -55,8 +55,20 @@ app.use(cors({
 app.use(express.json());
 
 // Connect to MongoDB
+console.log('Connecting to MongoDB with URI:', process.env.MONGODB_URI);
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB Atlas'))
+  .then(() => {
+    console.log('Connected to MongoDB Atlas');
+    // Count movies to verify data access
+    const Movie = mongoose.model('Movie');
+    Movie.countDocuments()
+      .then(count => {
+        console.log(`Database contains ${count} movies`);
+      })
+      .catch(err => {
+        console.error('Error counting movies:', err);
+      });
+  })
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Define routes
